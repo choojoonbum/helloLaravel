@@ -35,5 +35,6 @@
     "Unauthorized": "인증되지 않음",
     "Verify Email Address": "이메일 주소 확인",
     "Whoops!": "저런!",
-    "You are receiving this email because we received a password reset request for your account.": "귀하의 계정에 대한 비밀번호 재설정이 요청되어 이 메일이 발송되었습니다."
+    "You are receiving this email because we received a password reset request for your account.": "귀하의 계정에 대한 비밀번호 재설정이 요청되어 이 메일이 발송되었습니다.",
+    "Your email address is not verified.": "이메일이 인증되지 않았습니다."
 }

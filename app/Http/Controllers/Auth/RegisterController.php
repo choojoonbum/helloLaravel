@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterUserRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Validator;
 //use App\Rules\Password as PasswordRule;
@@ -17,17 +19,23 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function register(RegisterUserRequest $request)
     {
-        $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:users|max:255',
-            //'password' => [new PasswordRule()]
-            'password' => [Password::defaults()]
-        ]);
+
+        //$request->validate([
+        //    'name' => 'required|max:255',
+         //   'email' => 'required|email|unique:users|max:255',
+        //    //'password' => [new PasswordRule()]
+        //    'password' => [Password::defaults()]
+        //]);
 
         $user = User::create([...$request->validated(),
             'password' => Hash::make($request->password)]);
+
+        auth()->login($user);
+
+        event(new Registered($user));
+        return to_route('verification.notice');
 
 /*
         $validator = Validator::make($request->all(),[
