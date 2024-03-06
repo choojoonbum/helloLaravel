@@ -14,7 +14,7 @@ class Password implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (! preg_match('/^(?=.*[a-z])(?=.*[a-z])(?=.*\d)(?=.*(_|[^\w]).+$', $value)) {
+        if (! preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/', $value)) {
             $fail('validation.regex')->translate();
         }
     }
