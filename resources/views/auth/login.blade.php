@@ -10,5 +10,6 @@
         <input type="checkbox" name="remember">
 
         <button type="submit">로그인</button>
+        @each('auth.social', $providers, 'provider')
     </form>
 @endsection

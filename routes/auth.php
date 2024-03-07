@@ -32,3 +32,12 @@ Route::controller(\App\Http\Controllers\Auth\LoginController::class)->group(func
     Route::post('/logout', 'logout')->name('logout')->middleware('auth');
 });
 
+Route::controller(\App\Http\Controllers\Auth\SocialLoginController::class)->group(function () {
+    Route::middleware('guest')->name('login.')->group(function () {
+        Route::get('/login/{provider}', 'redirect')
+            ->name('social');
+        Route::get('/login/{provider}/callback', 'callback')
+        ->name('social.callback');
+    });
+});
+

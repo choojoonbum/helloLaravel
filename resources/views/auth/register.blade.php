@@ -10,5 +10,6 @@
         <input type="password" name="password">
 
         <button type="submit">회원가입</button>
+        @each('auth.social', $providers, 'provider')
     </form>
 @endsection

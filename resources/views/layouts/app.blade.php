@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>라라벨 - @yield('title')</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])0
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
     <main>@yield('content')</main>
-
     @if($errors->any())
         @foreach($errors->all() as $error)
             <ul>
