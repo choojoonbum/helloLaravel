@@ -16,5 +16,8 @@
             </ul>
         @endforeach
     @endif
+    @if(session()->has('status'))
+        <div>{{ session()->get('status') }}</div>
+    @endif
 </body>
 </html>

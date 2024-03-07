@@ -12,4 +12,5 @@
         <button type="submit">로그인</button>
         @each('auth.social', $providers, 'provider')
     </form>
+    <a href="{{ route('password.request') }}">비밀번호 재설정</a>
 @endsection

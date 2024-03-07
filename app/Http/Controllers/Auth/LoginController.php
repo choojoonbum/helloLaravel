@@ -17,8 +17,7 @@ class LoginController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $credentials = request(['email', 'password']);
-        if (! auth()->attempt($credentials, $request->boolean('remember'))) {
+        if (! auth()->attempt($request->validated(), $request->boolean('remember'))) {
             return back()->withErrors(['failed' => _('auth.failed')]);
         }
 
