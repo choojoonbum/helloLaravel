@@ -171,7 +171,8 @@ return [
         App\Providers\TelescopeServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         App\Providers\PasswordServiceProvider::class,
-        \App\Providers\SessionServiceProvider::class
+        App\Providers\SessionServiceProvider::class,
+        App\Providers\PaginateServiceProvider::class
     ])->toArray(),
 
     /*
