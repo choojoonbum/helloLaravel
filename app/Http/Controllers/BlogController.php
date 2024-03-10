@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
+use Illuminate\Support\Facades\Gate;
 
 class BlogController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Blog::class,'blog');
+    }
+
     /**
      * Display a listing of the resource.
      */
