@@ -11,21 +11,11 @@ use Tests\TestCase;
 class RegisterControllerTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
-    /**
-     * A basic feature test example.
-     */
-    public function test_example(): void
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
 
     public function testReturnRegisterView()
     {
         $this->get(route('register'))->assertOk()->assertViewIs('auth.register');
     }
-
 
     public function testUserRegisteration()
     {
