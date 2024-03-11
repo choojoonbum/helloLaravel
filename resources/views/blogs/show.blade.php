@@ -11,4 +11,19 @@
             @endcan
         </ul>
     @endauth
+    @unless($owned)
+        @unless($subscribed)
+            <form action="{{ route('subscribe') }}" method="post">
+                @csrf
+                <input type="hidden" name="blog_id" value="{{ $blog->id }}">
+                <button type="submit">구독</button>
+            </form>
+        @else
+            <form action="{{ route('unsubscribe') }}" method="post">
+                @csrf
+                <input type="hidden" name="blog_id" value="{{ $blog->id }}">
+                <button type="submit">구독취소</button>
+            </form>
+        @endunless
+    @endunless
 @endsection
