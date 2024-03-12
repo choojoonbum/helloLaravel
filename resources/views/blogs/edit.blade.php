@@ -15,4 +15,19 @@
         @csrf
         <button type="submit">삭제</button>
     </form>
+
+    <h3>글</h3>
+    <ul>
+        @foreach($blog->posts as $post)
+            <li>
+                <a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a>
+                <a href="{{ route('posts.edit', $post) }}">수정</a>
+                <form action="{{ route('posts.destroy', $post) }}" method="post">
+                    @csrf
+                    @method('delete')
+                    <button type="submit">삭제</button>
+                </form>
+            </li>
+        @endforeach
+    </ul>
 @endsection

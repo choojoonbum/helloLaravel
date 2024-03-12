@@ -28,4 +28,9 @@ class Blog extends Model
     {
         return $this->belongsToMany(User::class)->as('subscription');
     }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

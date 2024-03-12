@@ -10,6 +10,11 @@
             <li><a href="{{ route('blogs.edit', $blog) }}">블로그 관리</a></li>
             @endcan
         </ul>
+        <ul>
+            @can('create', [\App\Models\Post::class, $blog])
+                <li><a href="{{ route('blogs.posts.create', $blog) }}">글쓰기</a></li>
+            @endcan
+        </ul>
     @endauth
     @unless($owned)
         @unless($subscribed)
@@ -26,4 +31,9 @@
             </form>
         @endunless
     @endunless
+    <ul>
+        @foreach($posts as $post)
+            <a href="{{ route('posts.show', $post) }}">{{ $post->title }}</a>
+        @endforeach
+    </ul>
 @endsection

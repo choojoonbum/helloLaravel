@@ -23,3 +23,6 @@ Route::controller(\App\Http\Controllers\SubscribeController::class)->group(funct
     Route::post('subscribe', 'subscribe')->name('subscribe');
     Route::post('unsubscribe', 'unsubscribe')->name('unsubscribe');
 });
+
+// /blogs/{blog}/posts/create
+Route::resource('blogs.posts', \App\Http\Controllers\PostController::class)->shallow();
