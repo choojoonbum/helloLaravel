@@ -54,7 +54,10 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('blogs.posts.show', ['post' => $post]);
+        return view('blogs.posts.show', [
+            'post' => $post->loadCount('comments'),
+            'comments' => $post->comments()->doesntHave('parent')->with(['user', 'replies.user'])->get()
+            ]);
     }
 
     /**

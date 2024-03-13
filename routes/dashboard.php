@@ -10,3 +10,6 @@ Route::get('/subscriptions', \App\Http\Controllers\Dashboard\SubscriptionControl
 
 Route::get('/subscribers', \App\Http\Controllers\Dashboard\SubscriberController::class)
     ->name('dashboard.subscribers');
+
+Route::get('/comments', \App\Http\Controllers\Dashboard\CommentController::class)
+    ->name('dashboard.comments');

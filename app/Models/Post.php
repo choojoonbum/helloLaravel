@@ -18,4 +18,10 @@ class Post extends Model
     {
         return $this->belongsTo(Blog::class);
     }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')
+            ->withTrashed();
+    }
 }

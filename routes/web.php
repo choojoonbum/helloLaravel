@@ -26,3 +26,7 @@ Route::controller(\App\Http\Controllers\SubscribeController::class)->group(funct
 
 // /blogs/{blog}/posts/create
 Route::resource('blogs.posts', \App\Http\Controllers\PostController::class)->shallow();
+
+Route::resource('posts.comments', \App\Http\Controllers\CommentController::class)
+    ->shallow()
+    ->only(['store', 'update', 'destroy']);
