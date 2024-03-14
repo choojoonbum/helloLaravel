@@ -14,9 +14,8 @@ class PostController extends Controller
         $this->authorizeResource(Post::class, 'post', [
             'except' => ['create', 'store']
         ]);
-        //$this->middleware('can:create,App\Models\Post, blog')->only(['create','store']);
+        $this->middleware('can:create,App\Models\Post,blog')->only(['create','store']);
     }
-
 
     /**
      * Display a listing of the resource.
