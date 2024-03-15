@@ -21,6 +21,13 @@
         @endcan
     </header>
     <article>{{ $post->content }}</article>
+    <ul>
+        @foreach($post->attachments as $attachment)
+            <li>
+                <a href="{{ $attachment->link->path }}" download="{{ $attachment->original_name }}">{{ $attachment->original_name }}</a>
+            </li>
+        @endforeach
+    </ul>
     <form action="{{ route('posts.comments.store', $post) }}" method="post">
         @csrf
         <textarea name="content">{{ old('content') }}</textarea>

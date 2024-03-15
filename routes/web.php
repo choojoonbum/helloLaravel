@@ -30,3 +30,7 @@ Route::resource('blogs.posts', \App\Http\Controllers\PostController::class)->sha
 Route::resource('posts.comments', \App\Http\Controllers\CommentController::class)
     ->shallow()
     ->only(['store', 'update', 'destroy']);
+
+Route::resource('posts.attachments', \App\Models\Attachment::class)
+    ->shallow()
+    ->only(['store', 'destroy']);

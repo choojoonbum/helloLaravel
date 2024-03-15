@@ -24,4 +24,9 @@ class Post extends Model
         return $this->morphMany(Comment::class, 'commentable')
             ->withTrashed();
     }
+
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class);
+    }
 }

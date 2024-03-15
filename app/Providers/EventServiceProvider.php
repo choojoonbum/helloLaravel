@@ -2,12 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Attachment;
 use App\Models\Post;
+use App\Observers\AttachmentObserver;
 use App\Observers\PostObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -23,7 +24,8 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     protected $observers = [
-        Post::class => PostObserver::class
+        Post::class => PostObserver::class,
+        Attachment::class => AttachmentObserver::class
     ];
 
     /**
