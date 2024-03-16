@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreAttachmentRequest;
 use App\Models\Blog;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\FormRequest;
 
 class PostController extends Controller
 {
@@ -75,7 +74,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StorePostRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
         $post->update($request->only(['title', 'content']));
         $this->attachments($request, $post);
@@ -91,7 +90,7 @@ class PostController extends Controller
         return to_route('blogs.posts.index', $post->blog);
     }
 
-    private function attachments(Request $request, $post)
+    private function attachments(FormRequest $request, $post)
     {
         if ($request->hasFile('attachments')) {
             app(AttachmentController::class)->store($request, $post);
