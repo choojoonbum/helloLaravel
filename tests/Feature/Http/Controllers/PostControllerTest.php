@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 
 class PostControllerTest extends TestCase
 {
@@ -30,17 +32,37 @@ class PostControllerTest extends TestCase
 
     public function testCreatePostForBlog()
     {
+        Storage::fake('public');
+
+        $attachment = UploadedFile::fake()->image('file.jpg');
+
         $blog = Blog::factory()->hasSubscribers()->create();
+
         $data = [
             'title' => $this->faker->text(50),
-            'content' => $this->faker->text
+            'content' => $this->faker->text(),
         ];
 
         $this->actingAs($blog->user)
-            ->post(route('blogs.posts.store', $blog), $data)->assertRedirect();
+            ->post(route('blogs.posts.store', $blog), [
+                ...$data,
+                'attachments' => [
+                    $attachment,
+                ],
+            ])
+            ->assertRedirect();
 
-        $this->assertCount(1, $blog->posts);
         $this->assertDatabaseHas('posts', $data);
+
+        $this->assertDatabaseHas('attachments', [
+            'original_name' => $attachment->getClientOriginalName(),
+            'name' => $attachment->hashName('attachments'),
+        ]);
+
+        Storage::disk('public')->assertExists(
+            $attachment->hashName('attachments')
+        );
+
     }
 
     public function testReturnsShowViewForPost()
@@ -61,16 +83,36 @@ class PostControllerTest extends TestCase
 
     public function testUpdatePost()
     {
+        Storage::fake('public');
+
+        $attachment = UploadedFile::fake()->image('file.jpg');
+
         $post = Post::factory()->create();
+
         $data = [
             'title' => $this->faker->text(50),
-            'content' => $this->faker->text
+            'content' => $this->faker->text(),
         ];
+
         $this->actingAs($post->blog->user)
-            ->put(route('posts.update', $post), $data)
+            ->put(route('posts.update', $post), [
+                ...$data,
+                'attachments' => [
+                    $attachment,
+                ],
+            ])
             ->assertRedirect();
 
         $this->assertDatabaseHas('posts', $data);
+
+        $this->assertDatabaseHas('attachments', [
+            'original_name' => $attachment->getClientOriginalName(),
+            'name' => $attachment->hashName('attachments'),
+        ]);
+
+        Storage::disk('public')->assertExists(
+            $attachment->hashName('attachments')
+        );
     }
 
     public function testDeletePost()
@@ -81,4 +123,5 @@ class PostControllerTest extends TestCase
 
         $this->assertDatabaseMissing('posts', ['id' => $post->id]);
     }
+
 }

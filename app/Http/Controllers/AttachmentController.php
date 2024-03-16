@@ -40,7 +40,7 @@ class AttachmentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request, Post $post)
+    public function store(Request $request, Post $post)
     {
         foreach ($request->file('attachments') as $attachment) {
             $attachment->storePublicly('attachments', 'public');

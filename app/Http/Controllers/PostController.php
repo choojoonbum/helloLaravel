@@ -75,7 +75,7 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(StorePostRequest $request, Post $post)
     {
         $post->update($request->only(['title', 'content']));
         $this->attachments($request, $post);
@@ -91,7 +91,7 @@ class PostController extends Controller
         return to_route('blogs.posts.index', $post->blog);
     }
 
-    private function attachments(StorePostRequest $request, $post)
+    private function attachments(Request $request, $post)
     {
         if ($request->hasFile('attachments')) {
             app(AttachmentController::class)->store($request, $post);
