@@ -6,12 +6,16 @@ use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
+use App\Mail\Subscribed as SubscribedMailable;
 
 class SubscribeControllerTest extends TestCase
 {
     public function testUserSubscribeBlog()
     {
+        Mail::fake();
+
         $user = User::factory()->create();
         $blog = Blog::factory()->create();
 
@@ -24,6 +28,8 @@ class SubscribeControllerTest extends TestCase
             'user_id' => $user->id,
             'blog_id' => $blog->id
         ]);
+
+        Mail::assertQueued(SubscribedMailable::class);
     }
 
     public function testUserUnsubscribeBlog()
