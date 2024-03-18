@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Subscribed;
 use App\Http\Requests\SubscribeRequest;
 use App\Http\Requests\UnsubscribeRequest;
 use App\Models\Blog;
@@ -25,6 +26,8 @@ class SubscribeController extends Controller
         //    ->send(new SubscribedMailable($user, $blog));
 
         $blog->user->notify(new SubscribedNotification($user, $blog));
+
+        event(new Subscribed($user, $blog));
 
         return back();
     }

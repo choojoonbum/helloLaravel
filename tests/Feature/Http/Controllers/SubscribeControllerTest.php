@@ -2,10 +2,12 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Events\Subscribed;
 use App\Models\Blog;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -18,6 +20,7 @@ class SubscribeControllerTest extends TestCase
     {
         Mail::fake();
         Notification::fake();
+        Event::fake();
 
         $user = User::factory()->create();
         $blog = Blog::factory()->create();
@@ -34,6 +37,7 @@ class SubscribeControllerTest extends TestCase
 
         Mail::assertQueued(SubscribedMailable::class);
         Notification::assertSentTo($blog->user, SubscribedNotification::class);
+        Event::assertDispatched(Subscribed::class);
     }
 
     public function testUserUnsubscribeBlog()

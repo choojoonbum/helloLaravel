@@ -2,11 +2,13 @@
 
 namespace Tests\Feature\Http\Controllers;
 
+use App\Events\Published;
 use App\Models\Blog;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
@@ -32,6 +34,7 @@ class PostControllerTest extends TestCase
 
     public function testCreatePostForBlog()
     {
+        Event::fake();
         Storage::fake('public');
 
         $attachment = UploadedFile::fake()->image('file.jpg');
@@ -62,6 +65,7 @@ class PostControllerTest extends TestCase
         Storage::disk('public')->assertExists(
             $attachment->hashName('attachments')
         );
+        Event::assertDispatched(Published::class);
 
     }
 
