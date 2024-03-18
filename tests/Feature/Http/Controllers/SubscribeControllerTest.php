@@ -7,14 +7,17 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 use App\Mail\Subscribed as SubscribedMailable;
+use App\Notifications\Subscribed as SubscribedNotification;
 
 class SubscribeControllerTest extends TestCase
 {
     public function testUserSubscribeBlog()
     {
         Mail::fake();
+        Notification::fake();
 
         $user = User::factory()->create();
         $blog = Blog::factory()->create();
@@ -30,6 +33,7 @@ class SubscribeControllerTest extends TestCase
         ]);
 
         Mail::assertQueued(SubscribedMailable::class);
+        Notification::assertSentTo($blog->user, SubscribedNotification::class);
     }
 
     public function testUserUnsubscribeBlog()

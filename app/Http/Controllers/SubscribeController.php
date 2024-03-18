@@ -8,6 +8,7 @@ use App\Models\Blog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Subscribed as SubscribedMailable;
+use App\Notifications\Subscribed as SubscribedNotification;
 
 class SubscribeController extends Controller
 {
@@ -23,6 +24,7 @@ class SubscribeController extends Controller
         //    ->queue((new SubscribedMailable($user, $blog))->onQueue('emails'));
         //    ->send(new SubscribedMailable($user, $blog));
 
+        $blog->user->notify(new SubscribedNotification($user, $blog));
 
         return back();
     }
