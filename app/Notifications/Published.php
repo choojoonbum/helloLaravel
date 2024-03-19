@@ -5,11 +5,12 @@ namespace App\Notifications;
 use App\Models\Post;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Str;
 
-class Published extends Notification
+class Published extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -28,7 +29,7 @@ class Published extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'broadcast'];
     }
 
     /**
@@ -52,6 +53,26 @@ class Published extends Notification
     {
         return [
             //
+        ];
+    }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     */
+    public function toBroadcast($notifiable): BroadcastMessage
+    {
+        return new BroadcastMessage([
+            'post' => $this->post,
+        ]);
+    }
+
+    public function viaQueues(): array
+    {
+        return [
+            'mail' => 'emails',
+            'broadcast' => 'broadcasts',
         ];
     }
 }
