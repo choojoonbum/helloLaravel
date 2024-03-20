@@ -32,3 +32,5 @@ Route::resource('posts.comments', \App\Http\Controllers\CommentController::class
 Route::resource('posts.attachments', \App\Http\Controllers\AttachmentController::class)
     ->shallow()
     ->only(['store', 'destroy']);
+
+Route::get('/search', \App\Http\Controllers\SearchController::class)->name('search');
