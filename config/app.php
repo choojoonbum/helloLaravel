@@ -172,7 +172,8 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         App\Providers\PasswordServiceProvider::class,
         App\Providers\SessionServiceProvider::class,
-        App\Providers\PaginateServiceProvider::class
+        App\Providers\PaginateServiceProvider::class,
+        App\Providers\HttpClientServiceProvider::class
     ])->toArray(),
 
     /*
