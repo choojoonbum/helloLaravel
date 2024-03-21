@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Http\Middleware\Locale;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -9,6 +10,12 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         Commands\SendEmails::class
+    ];
+
+    protected $middlewareGroups = [
+        'web' => [
+            Locale::class
+        ]
     ];
     /**
      * Define the application's command schedule.
