@@ -65,4 +65,5 @@ Route::controller(\App\Http\Controllers\Auth\PasswordConfirmController::class)->
 Route::singleton('profile', \App\Http\Controllers\Auth\ProfileController::class)
     ->middleware('password.confirm');
 
-
+Route::resource('tokens', \App\Http\Controllers\Auth\TokenController::class)
+    ->only(['create', 'store', 'destroy']);

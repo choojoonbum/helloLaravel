@@ -13,3 +13,6 @@ Route::get('/subscribers', \App\Http\Controllers\Dashboard\SubscriberController:
 
 Route::get('/comments', \App\Http\Controllers\Dashboard\CommentController::class)
     ->name('dashboard.comments');
+
+Route::get('/tokens', \App\Http\Controllers\Dashboard\TokenController::class)
+    ->name('dashboard.tokens');
