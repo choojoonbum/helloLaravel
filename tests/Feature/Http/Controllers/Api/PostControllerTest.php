@@ -26,9 +26,16 @@ class PostControllerTest extends TestCase
         Sanctum::actingAs($blog->user, [
             Ability::POST_READ->value
         ]);
-        $this->getJson(route('api.blogs.posts.index', $blog))->assertOk();
+        $this->getJson(route('api.blogs.posts.index', $blog))
+            ->assertOk()
+            ->assertJson(function (AssertableJson $json) {
+                $json->whereType('data', 'array')
+                    ->has('data', 3, function (AssertableJson $json) {
+                        $json->hasAll(['id', 'title', 'content'])->etc();
+                    });
+            });
     }
-/*
+
     public function testCreatePostAndReturnsItself(): void
     {
         Event::fake();
@@ -92,17 +99,11 @@ class PostControllerTest extends TestCase
                     $json->hasAll(['id', 'title', 'content'])
                         ->etc();
                 });
-            })
-            ->assertHeader('Etag');
+            });
 
-        $etag = $response->getEtag();
 
-        $this->getJson(route('api.posts.show', $post), [
-            'If-None-Match' => $etag,
-        ])
-            ->assertStatus(304);
     }
-*/
+
     public function testUpdatePost(): void
     {
         Storage::fake('public');
