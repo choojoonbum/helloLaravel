@@ -99,7 +99,14 @@ class PostControllerTest extends TestCase
                     $json->hasAll(['id', 'title', 'content'])
                         ->etc();
                 });
-            });
+            })->assertHeader('Etag');
+
+        $etag = $response->getEtag();
+
+        $this->getJson(route('api.posts.show', $post), [
+            'If-None-Match' => $etag,
+        ])
+            ->assertStatus(304);
 
 
     }
