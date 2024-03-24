@@ -21,6 +21,10 @@ class LoginController extends Controller
             return back()->withErrors(['failed' => _('auth.failed')]);
         }
 
+        if ($request->ajax()) {
+            return response()->json(['message' => 'Successfully logged in']);
+        }
+
         return redirect()->intended();
     }
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <form action="">
+        <input type="text" name="email">
+        <input type="password" name="password">
+        <button type="submit">로그인</button>
+    </form>
+
+
+    <script>
+        const axiosInstance = axios.create({
+            baseURL: "http://homestead.test",
+            withCredentials: true,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        });
+
+       document.querySelector('form').addEventListener('submit', e => {
+           const form = e.target;
+           e.preventDefault();
+           const email = form.elements.email.value;
+           const password = form.elements.password.value;
+
+            axiosInstance.get('/sanctum/csrf-cookie').then(response => {
+                axiosInstance.post('/login', {email, password}).then(async response => {
+                    console.log(111);
+                })
+            })
+
+       })
+
+
+    </script>
+</body>
+</html>

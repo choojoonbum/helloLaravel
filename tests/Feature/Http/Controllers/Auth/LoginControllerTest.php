@@ -37,6 +37,21 @@ class LoginControllerTest extends TestCase
         $this->assertGuest();
     }
 
+    public function testAjaxLoginForValidCredentials(): void
+    {
+        $user = User::factory()->create();
+
+        $this->postJson(route('login'), [
+            'email' => $user->email,
+            'password' => 'password',
+        ], [
+            'X-Requested-With' => 'XMLHttpRequest',
+        ])
+            ->assertOk();
+
+        $this->assertAuthenticated();
+    }
+
     public function testLogout()
     {
         $user = User::factory()->create();
