@@ -67,3 +67,15 @@ Route::singleton('profile', \App\Http\Controllers\Auth\ProfileController::class)
 
 Route::resource('tokens', \App\Http\Controllers\Auth\TokenController::class)
     ->only(['create', 'store', 'destroy']);
+
+Route::withoutMiddleware('web')->middleware('api')->group(function () {
+    Route::controller(\App\Http\Controllers\Auth\JwtLoginController::class)->group(function () {
+        Route::name('jwt.')->prefix('jwt')->group(function () {
+            Route::post('login', 'store')->name('login');
+            Route::middleware('auth:api')->group(function () {
+                Route::put('refresh', 'update')->name('refresh');
+                Route::delete('logout', 'destroy')->name('logout');
+            });
+        });
+    });
+});
